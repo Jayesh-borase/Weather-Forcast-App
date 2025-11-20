@@ -19,6 +19,11 @@ export default function SearchBox({ updateInfo }) {
     const res = await fetch(`${API_URL}?q=${city}&appid=${API_KEY}&units=metric`);
     const json = await res.json();
 
+    // ✅ ERROR HANDLING: If city not found
+    if (json.cod === "404" || json.cod === 404) {
+      throw new Error("City not found");
+    }
+
     return {
       city: json.name,
       temp: json.main.temp,
@@ -31,9 +36,15 @@ export default function SearchBox({ updateInfo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const info = await getWeatherInfo();
-    updateInfo(info);
-    setCity("");
+
+    try {
+      const info = await getWeatherInfo();
+      updateInfo(info);
+      setCity("");
+    } catch (err) {
+      // ✅ Show error message if city not found
+      alert("❌ City not found! Please enter a valid city name.");
+    }
   };
 
   return (
@@ -41,22 +52,22 @@ export default function SearchBox({ updateInfo }) {
       sx={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "40px", // ⬅ moved up
+        marginTop: "40px",
         padding: "20px",
       }}
     >
       <Card
         elevation={8}
         sx={{
-          padding: "22px", // ⬅ slightly smaller padding
-          width: "380px", // ⬅ smaller width
+          padding: "22px",
+          width: "380px",
           borderRadius: "18px",
           background: "rgba(255,255,255,0.85)",
           backdropFilter: "blur(10px)",
         }}
       >
         <Typography
-          variant="h6" // ⬅ slightly smaller heading
+          variant="h6"
           sx={{
             textAlign: "center",
             fontWeight: 600,
@@ -76,7 +87,7 @@ export default function SearchBox({ updateInfo }) {
             <TextField
               fullWidth
               label="City"
-              size="small" // ⬅ smaller input
+              size="small"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
