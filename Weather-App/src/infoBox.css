@@ -1,0 +1,21 @@
+.info-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.weather-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.weather-details {
+  line-height: 1.7;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.weather-details p {
+  margin: 4px 0;
+}

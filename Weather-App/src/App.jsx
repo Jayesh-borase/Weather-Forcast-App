@@ -1,15 +1,12 @@
-import { useState } from 'react'
-import SearchBox from "./searchBox";
-
-import './App.css'
+import WeatherApp from "./weatherApp";
+import "./App.css";
 
 function App() {
   return (
-    
-      <div>
-        <SearchBox/>
-      </div>
-  )
+    <div className="weather-app-container">
+      <WeatherApp />
+    </div>
+  );
 }
 
-export default App
+export default App;
